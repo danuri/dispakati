@@ -22,6 +22,9 @@
 								- Jika ada angka desimal tanda koma (,) diganti menjadi tanda titik (.)
 								Contoh: <strong>10,456</strong> ditulis menjadi <strong>10.456</strong>
 							</div>
+              <div class="alert alert-danger">
+                Isi data sesuai dengan PAK terakhir yang dimiliki. Ketidaksesuaian data yang diinput menjadi tanggung jawab pegawai masing-masing.
+              </div>
               <form class="" action="" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?= encrypt($paki->id)?>">
               <table class="table table-bordered">
@@ -132,7 +135,7 @@
                         </div>
                         <div class=" col-md-1 text-center"> s.d </div>
                         <div class=" col-md-4">
-                          <input type="date" name="paki_tgl_akhir" class="form-control" value="2022-12-31">
+                          <input type="date" name="paki_tgl_akhir" class="form-control" value="2022-12-31" readonly>
                         </div>
                       </div>
 										</td>
@@ -143,7 +146,7 @@
 										<td>
 										<div class=" col-md-7">
 										<input type="file" required="" name="gambar" id="gambar" accept="application/pdf" class="form-control">
-                    <?= ($paki->paki_file)?'<br><br><a href="https://docu.kemenag.go.id:9000/cdn/dispakati/'.$paki->paki_file.'" target="_blank">Lihat Dokumen</a>':'';?>
+                    <?= ($paki->paki_file)?'<br><br><a href="https://docu.kemenag.go.id:9000/cdn/dispakati/'.$paki->paki_file.'" target="_blank" class="btn btn-primary">Lihat Dokumen</a>':'';?>
 						                </div>
 						               	</td>
 									</tr>
