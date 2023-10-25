@@ -3,9 +3,9 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>PAKI | Kementerian Agama RI</title>
+    <title>DISPAKATI | Kementerian Agama RI</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Sistem Informasi Kepegawaian Kementerian Agama RI" name="description" />
+    <meta content="Sistem PAK Integrasi Kementerian Agama RI" name="description" />
     <meta content="Danunih" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="https://d2mj1s7x3czrue.cloudfront.net/hrms/assets/images/favicon.ico">
