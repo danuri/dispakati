@@ -63,7 +63,7 @@ class Auth extends BaseController
           return redirect()->to('/');
 
         }else{
-          return redirect()->back()->with('message', 'NIP/Password tidak sesuai');
+          return redirect()->back()->with('message', 'NIP/Password tidak sesuai. Silahkan dicek kembali.');
         }
       }else{
 
