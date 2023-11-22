@@ -9,7 +9,6 @@ class Rekon extends BaseController
 {
     public function index()
     {
-
       $cache = \Config\Services::cache();
       $token = $cache->get('bkn_dispakati_token');
 
@@ -33,8 +32,22 @@ class Rekon extends BaseController
               'dokumen_pak' => file_get_contents('https://docu.kemenag.go.id:9000/cdn/dispakati/'.$row->paki_file)
         ];
 
-        $rekon = $this->api($param);
+        // $rekon = $this->api($param);
+        $client = \Config\Services::curlrequest();
 
+        $token = session('tokendispakati');
+
+        $request = $client->request('POST', 'https://dispakati.bkn.go.id/api/trial/angkakredit/hitung', [
+                            'multipart' => $param,
+                            'headers' => [
+                                'Authorization' => 'Bearer '.$token
+                            ],
+                            'verify' => false,
+                            'debug' => true
+                        ]);
+
+        $rekon = json_decode($request->getBody());
+        // print_r($rekon);
         if($rekon->status === true){
           $set = [
             'status' => 1,
@@ -53,12 +66,34 @@ class Rekon extends BaseController
 
     }
 
+    public function getdata($nip)
+    {
+      $client = \Config\Services::curlrequest();
+
+      $token = session('tokendispakati');
+
+      $request = $client->request('GET', 'https://dispakati.bkn.go.id/api/trial/angkakredit/getbyid', [
+                          'headers' => [
+                              'Authorization' => 'Bearer '.$token
+                          ],
+                          'verify' => false,
+                          'debug' => true
+                      ]);
+
+      if($request){
+        $body = json_decode($request->getBody());
+        // echo $token;
+        return $body;
+      }
+    }
+
     public function api($param)
     {
       $client = \Config\Services::curlrequest();
 
       // $cache = \Config\Services::cache();
       // $token = $cache->get('bkn_dispakati_token');
+      // $token = session('tokendispakati');
       $token = session('tokendispakati');
 
       $request = $client->request('POST', 'https://dispakati.bkn.go.id/api/trial/angkakredit/hitung', [
@@ -101,12 +136,14 @@ class Rekon extends BaseController
         // print_r($body);
         // echo $body->message;
         //
-        if($body->status == 1){
+        if($body->status === true ){
 
           // $cache = \Config\Services::cache();
           // $cache->save('bkn_dispakati_token', $body->token,3600);
           session()->set(['tokendispakati'=>$body->token]);
-          echo 'Success';
+          // echo 'Success';
+          echo $body->token;
+          // return $body->token;
         }else{
           echo 'Error';
         }
