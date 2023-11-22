@@ -17,7 +17,7 @@ class Rekon extends BaseController
 
       foreach ($paki as $row) {
 
-        $arrContextOptions=array(
+        $arrContextOptions = array(
                                 "ssl"=>array(
                                     "verify_peer"=>false,
                                     "verify_peer_name"=>false,
@@ -36,7 +36,7 @@ class Rekon extends BaseController
               'paki_konv_tunjang_baru' => $row->paki_konv_tunjang_baru,
               'paki_tgl_awal' => $row->paki_tgl_awal,
               'paki_tgl_akhir' => $row->paki_tgl_akhir,
-              'dokumen_pak' => file_get_contents('https://docu.kemenag.go.id:9000/cdn/dispakati/'.$row->paki_file, false, $arrContextOptions)
+              'dokumen_pak' => file_get_contents('https://docu.kemenag.go.id:9000/cdn/dispakati/'.$row->paki_file, false, stream_context_create($arrContextOptions))
         ];
 
         // $rekon = $this->api($param);
