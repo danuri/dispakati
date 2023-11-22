@@ -14,7 +14,7 @@ class Rekon extends BaseController
       $token = $cache->get('bkn_dispakati_token');
 
       $model = new PakiModel;
-      $paki = $model->where('status',9)->findAll();
+      $paki = $model->where('status',9)->findAll(1,0);
 
       foreach ($paki as $row) {
 
