@@ -20,12 +20,12 @@ class Rekon extends BaseController
 
         $param = [
               'paki_pns_nipbaru' => $row->paki_pns_nipbaru,
-              'paki_konv_pddk_lama' => $row->paki_konv_pddk_lama,
-              'paki_konv_pddk_baru' => $row->paki_konv_pddk_baru,
-              'paki_konv_tupok_lama' => $row->paki_konv_tupok_lama,
-              'paki_konv_tupok_baru' => $row->paki_konv_tupok_baru,
-              'paki_konv_bangprov_lama' => $row->paki_konv_bangprov_lama,
-              'paki_konv_bangprof_baru' => $row->paki_konv_bangprof_baru,
+              'paki_pendidikan_lama' => $row->paki_konv_pddk_lama,
+              'paki_pendidikan_baru' => $row->paki_konv_pddk_baru,
+              'paki_tugas_pokok_lama' => $row->paki_konv_tupok_lama,
+              'paki_tugas_pokok_baru' => $row->paki_konv_tupok_baru,
+              'paki_pengembangan_profesi_lama' => $row->paki_konv_bangprov_lama,
+              'paki_pengembangan_profesi_baru' => $row->paki_konv_bangprof_baru,
               'paki_konv_tunjang_lama' => $row->paki_konv_tunjang_lama,
               'paki_konv_tunjang_baru' => $row->paki_konv_tunjang_baru,
               'paki_tgl_awal' => $row->paki_tgl_awal,
@@ -35,10 +35,19 @@ class Rekon extends BaseController
 
         $rekon = $this->api($param);
 
-        if($rekon){
-          $paki = $model->where('paki_pns_nipbaru',$row->paki_pns_nipbaru)->set('status',0)->update();
+        if($rekon->status === true){
+          $set = [
+            'status' => 1,
+            'dispakati_message' => $rekon->message,
+            'dispakati_pakiid' => $rekon->data->pakiid,
+          ];
+
+          $paki = $model->where('paki_pns_nipbaru',$row->paki_pns_nipbaru)->set($set)->update();
 
           print_r($rekon);
+        }else{
+          echo 'Gagal update. ';
+          echo $rekon->message;
         }
       }
 
@@ -52,8 +61,8 @@ class Rekon extends BaseController
       // $token = $cache->get('bkn_dispakati_token');
       $token = session('tokendispakati');
 
-      $request = $client->request('POST', 'https://dispakati.bkn.go.id/api/angkakredit/hitung_err', [
-                          'form_params' => $param,
+      $request = $client->request('POST', 'https://dispakati.bkn.go.id/api/trial/angkakredit/hitung', [
+                          'multipart' => $param,
                           'headers' => [
                               'Authorization' => 'Bearer '.$token
                           ],
@@ -70,15 +79,16 @@ class Rekon extends BaseController
 
     public function token()
     {
-      $cache = \Config\Services::cache();
-      $token = $cache->get('bkn_dispakati_token');
+      // $cache = \Config\Services::cache();
+      // $token = $cache->get('tokendispakati');
+      $token = session('tokendispakati');
       echo $token;
     }
 
     public function login()
     {
       $client = \Config\Services::curlrequest();
-      $request = $client->request('POST', 'https://dispakati.bkn.go.id/api/login/index_err', [
+      $request = $client->request('POST', 'https://dispakati.bkn.go.id/api/trial/login', [
                           'form_params' => [
                             'username' => '198707222019031005',
                             'password' => 'Nurfa1'
