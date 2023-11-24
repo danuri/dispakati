@@ -9,9 +9,6 @@ class Rekon extends BaseController
 {
     public function index()
     {
-      $cache = \Config\Services::cache();
-      $token = $cache->get('bkn_dispakati_token');
-
       $model = new PakiModel;
       $paki = $model->where('status',9)->findAll(1,0);
 
@@ -36,10 +33,10 @@ class Rekon extends BaseController
               'paki_konv_tunjang_baru' => $row->paki_konv_tunjang_baru,
               'paki_tgl_awal' => $row->paki_tgl_awal,
               'paki_tgl_akhir' => $row->paki_tgl_akhir,
-              'dokumen_pak' => file_get_contents('https://docu.kemenag.go.id:9000/cdn/dispakati/'.$row->paki_file, false, stream_context_create($arrContextOptions))
+              'dokumen_pak' => curl_file_create('https://docu.kemenag.go.id:9000/cdn/dispakati/'.$row->paki_file,'application/pdf',$row->paki_file)
         ];
 
-        // $rekon = $this->api($param);
+        $rekon = $this->api($param);
         $client = \Config\Services::curlrequest();
 
         $token = session('tokendispakati');
@@ -54,7 +51,6 @@ class Rekon extends BaseController
                         ]);
 
         $rekon = json_decode($request->getBody());
-        // print_r($rekon);
         if($rekon->status === true){
           $set = [
             'status' => 1,
@@ -89,7 +85,6 @@ class Rekon extends BaseController
 
       if($request){
         $body = json_decode($request->getBody());
-        // echo $token;
         return $body;
       }
     }
@@ -98,9 +93,6 @@ class Rekon extends BaseController
     {
       $client = \Config\Services::curlrequest();
 
-      // $cache = \Config\Services::cache();
-      // $token = $cache->get('bkn_dispakati_token');
-      // $token = session('tokendispakati');
       $token = session('tokendispakati');
 
       $request = $client->request('POST', 'https://dispakati.bkn.go.id/api/trial/angkakredit/hitung', [
@@ -114,15 +106,12 @@ class Rekon extends BaseController
 
       if($request){
         $body = json_decode($request->getBody());
-        // echo $token;
         return $body;
       }
     }
 
     public function token()
     {
-      // $cache = \Config\Services::cache();
-      // $token = $cache->get('tokendispakati');
       $token = session('tokendispakati');
       echo $token;
     }
@@ -132,25 +121,19 @@ class Rekon extends BaseController
       $client = \Config\Services::curlrequest();
       $request = $client->request('POST', 'https://dispakati.bkn.go.id/api/trial/login', [
                           'form_params' => [
-                            'username' => '198707222019031005',
-                            'password' => 'Nurfa1'
+                            'username' => getenv('DISPAKATI_USERNAME'),
+                            'password' => getenv('DISPAKATI_PASSWORD')
                           ],
-                          'verify' => false,
+                          'verify' => false
                       ]);
 
       if($request){
         $body = json_decode($request->getBody());
-        // print_r($body);
-        // echo $body->message;
-        //
+
         if($body->status === true ){
 
-          // $cache = \Config\Services::cache();
-          // $cache->save('bkn_dispakati_token', $body->token,3600);
           session()->set(['tokendispakati'=>$body->token]);
-          // echo 'Success';
           echo $body->token;
-          // return $body->token;
         }else{
           echo 'Error';
         }
