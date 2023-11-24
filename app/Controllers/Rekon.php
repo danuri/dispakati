@@ -10,7 +10,7 @@ class Rekon extends BaseController
     public function index()
     {
       $model = new PakiModel;
-      $paki = $model->where('status',9)->findAll(1,0);
+      $paki = $model->where('status',0)->findAll(1,0);
 
       foreach ($paki as $row) {
 
@@ -22,7 +22,7 @@ class Rekon extends BaseController
                             );
 
         $param = [
-              'paki_pns_nipbaru' => $row->paki_pns_nipbaru,
+              'nip' => $row->paki_pns_nipbaru,
               'paki_pendidikan_lama' => $row->paki_konv_pddk_lama,
               'paki_pendidikan_baru' => $row->paki_konv_pddk_baru,
               'paki_tugas_pokok_lama' => $row->paki_konv_tupok_lama,
@@ -36,7 +36,8 @@ class Rekon extends BaseController
               'dokumen_pak' => curl_file_create('https://docu.kemenag.go.id:9000/cdn/dispakati/'.$row->paki_file,'application/pdf',$row->paki_file)
         ];
 
-        $rekon = $this->api($param);
+        // print_r($param);
+
         $client = \Config\Services::curlrequest();
 
         $token = session('tokendispakati');
@@ -49,7 +50,7 @@ class Rekon extends BaseController
                             'verify' => false,
                             'debug' => true
                         ]);
-
+        // print_r($request);
         $rekon = json_decode($request->getBody());
         if($rekon->status === true){
           $set = [
