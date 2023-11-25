@@ -82,6 +82,8 @@ class Rekon extends BaseController
         unlink(FCPATH.'temp/'.$row->paki_file);
       }
 
+      redirect()->to('rekon');
+
     }
 
     public function getdata($nip)
