@@ -45,7 +45,8 @@ class Rekon extends BaseController
                                 'Cookie' => '4230614d55baff62a2f629cf357fa896=6e305bba31d7df92fe22ae6d9cc18535; ci_session=gogacr9fs3l25fqdtgfgscg2vbv3atue'
                             ],
                             'verify' => false,
-                            'debug' => true
+                            'debug' => true,
+                            'delay' => 500
                         ]);
         $rekon = json_decode($request->getBody());
         // print_r($request);
