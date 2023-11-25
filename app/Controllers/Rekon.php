@@ -83,7 +83,9 @@ class Rekon extends BaseController
       }
 
       sleep(2);
-      return redirect()->to('rekon');
+
+      $n = $this->request->getVar('n')+1;
+      return redirect()->to('rekon?x='.$n);
 
     }
 
