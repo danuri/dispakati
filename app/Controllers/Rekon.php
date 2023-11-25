@@ -50,7 +50,16 @@ class Rekon extends BaseController
         $rekon = json_decode($request->getBody());
         // print_r($request);
         if($rekon){
-          if($rekon->status === true){
+          if($rekon->message == 'error'){
+            $set = [
+              'status' => 3,
+              'dispakati_message' => $rekon->data,
+            ];
+
+            $paki = $model->where('paki_pns_nipbaru',$row->paki_pns_nipbaru)->set($set)->update();
+            echo 'Gagal update. ';
+            echo $rekon->data;
+          }else if($rekon->status == 1){
             $set = [
               'status' => 1,
               'dispakati_message' => $rekon->message,
@@ -68,7 +77,7 @@ class Rekon extends BaseController
 
             $paki = $model->where('paki_pns_nipbaru',$row->paki_pns_nipbaru)->set($set)->update();
             echo 'Gagal update. ';
-            echo $rekon->message;
+            echo $rekon->data;
           }
         }else{
           $set = [
