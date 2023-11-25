@@ -21,6 +21,8 @@ class Rekon extends BaseController
                                 ),
                             );
 
+        $this->download($row->paki_file);
+
         $param = [
               'nip' => $row->paki_pns_nipbaru,
               'paki_pendidikan_lama' => $row->paki_konv_pddk_lama,
@@ -33,10 +35,11 @@ class Rekon extends BaseController
               'paki_konv_tunjang_baru' => $row->paki_konv_tunjang_baru,
               'paki_tgl_awal' => $row->paki_tgl_awal,
               'paki_tgl_akhir' => $row->paki_tgl_akhir,
-              'dokumen_pak' => curl_file_create('https://docu.kemenag.go.id:9000/cdn/dispakati/'.$row->paki_file,'application/pdf',$row->paki_file)
+              // 'dokumen_pak' => curl_file_create('https://docu.kemenag.go.id:9000/cdn/dispakati/'.$row->paki_file,'application/pdf',$row->paki_file)
+              'dokumen_pak' => new \CURLFile('temp/'.$row->paki_file),
         ];
 
-        // print_r($param);
+        print_r($param);
 
         $client = \Config\Services::curlrequest();
 
@@ -45,27 +48,39 @@ class Rekon extends BaseController
         $request = $client->request('POST', 'https://dispakati.bkn.go.id/api/trial/angkakredit/hitung', [
                             'multipart' => $param,
                             'headers' => [
-                                'Authorization' => 'Bearer '.$token
+                                'Authorization' => 'Bearer '.$token,
+                                'Cookie' => '4230614d55baff62a2f629cf357fa896=6e305bba31d7df92fe22ae6d9cc18535; ci_session=gogacr9fs3l25fqdtgfgscg2vbv3atue'
                             ],
                             'verify' => false,
                             'debug' => true
                         ]);
-        // print_r($request);
         $rekon = json_decode($request->getBody());
-        if($rekon->status === true){
+        // print_r($request);
+        if($rekon){
+          if($rekon->status === true){
+            $set = [
+              'status' => 1,
+              'dispakati_message' => $rekon->message,
+              'dispakati_pakiid' => $rekon->data->pakiid,
+            ];
+
+            $paki = $model->where('paki_pns_nipbaru',$row->paki_pns_nipbaru)->set($set)->update();
+
+            print_r($rekon);
+          }else{
+            echo 'Gagal update. ';
+            echo $rekon->message;
+          }
+        }else{
           $set = [
-            'status' => 1,
-            'dispakati_message' => $rekon->message,
-            'dispakati_pakiid' => $rekon->data->pakiid,
+            'status' => 2,
+            'dispakati_message' => 'Gagal Update'
           ];
 
           $paki = $model->where('paki_pns_nipbaru',$row->paki_pns_nipbaru)->set($set)->update();
-
-          print_r($rekon);
-        }else{
-          echo 'Gagal update. ';
-          echo $rekon->message;
         }
+
+        unlink(FCPATH.'temp/'.$row->paki_file);
       }
 
     }
@@ -76,18 +91,21 @@ class Rekon extends BaseController
 
       $token = session('tokendispakati');
 
-      $request = $client->request('GET', 'https://dispakati.bkn.go.id/api/trial/angkakredit/getbyid', [
+      $request = $client->request('GET', 'https://dispakati.bkn.go.id/api/trial/angkakredit/byid/'.$nip, [
                           'headers' => [
-                              'Authorization' => 'Bearer '.$token
+                              'Authorization' => 'Bearer '.$token,
+                              'Cookie' => '4230614d55baff62a2f629cf357fa896=6e305bba31d7df92fe22ae6d9cc18535; ci_session=gogacr9fs3l25fqdtgfgscg2vbv3atue'
                           ],
                           'verify' => false,
                           'debug' => true
                       ]);
 
-      if($request){
-        $body = json_decode($request->getBody());
-        return $body;
-      }
+      // if($request){
+      //   return $body;
+      // }
+      $body = json_decode($request->getBody());
+
+      print_r($body);
     }
 
     public function api($param)
@@ -99,7 +117,8 @@ class Rekon extends BaseController
       $request = $client->request('POST', 'https://dispakati.bkn.go.id/api/trial/angkakredit/hitung', [
                           'multipart' => $param,
                           'headers' => [
-                              'Authorization' => 'Bearer '.$token
+                              'Authorization' => 'Bearer '.$token,
+                              'Cookie' => '4230614d55baff62a2f629cf357fa896=6e305bba31d7df92fe22ae6d9cc18535; ci_session=gogacr9fs3l25fqdtgfgscg2vbv3atue'
                           ],
                           'verify' => false,
                           'debug' => true
@@ -108,6 +127,22 @@ class Rekon extends BaseController
       if($request){
         $body = json_decode($request->getBody());
         return $body;
+      }
+    }
+
+    public function download($filename)
+    {
+      $url = 'https://docu.kemenag.go.id:9000/cdn/dispakati/'.$filename;
+
+      $file_name = basename($url);
+
+      if (file_put_contents('temp/'.$file_name, file_get_contents($url)))
+      {
+          echo "File downloaded successfully";
+      }
+      else
+      {
+          echo "File downloading failed.";
       }
     }
 
@@ -125,6 +160,9 @@ class Rekon extends BaseController
                             'username' => getenv('DISPAKATI_USERNAME'),
                             'password' => getenv('DISPAKATI_PASSWORD')
                           ],
+                          'headers' => [
+                            'Cookie' => '4230614d55baff62a2f629cf357fa896=6e305bba31d7df92fe22ae6d9cc18535; ci_session=gogacr9fs3l25fqdtgfgscg2vbv3atue'
+                          ],
                           'verify' => false
                       ]);
 
@@ -132,7 +170,6 @@ class Rekon extends BaseController
         $body = json_decode($request->getBody());
 
         if($body->status === true ){
-
           session()->set(['tokendispakati'=>$body->token]);
           echo $body->token;
         }else{
