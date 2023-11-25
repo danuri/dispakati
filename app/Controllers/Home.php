@@ -117,4 +117,14 @@ class Home extends BaseController
         // return redirect()->back()->with('message', 'Data telah diupdate.');
         return redirect()->back()->with('message', 'Sementara ditutup.');
     }
+
+    public function rekap()
+    {
+      $db = db_connect();
+      $rekap = $db->query("SELECT `status`, (CASE WHEN`status` = 0 THEN 'PENDING' ELSE dispakati_message END) AS dispakati_message, COUNT(id) AS jumlah FROM paki
+GROUP BY `status`, dispakati_message")->getResult();
+
+      $data['rekaps'] = $rekap;
+      return view('rekap',$data);
+    }
 }

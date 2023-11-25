@@ -11,6 +11,7 @@ use CodeIgniter\Router\RouteCollection;
 
  $routes->get('/', 'Home::index', ["filter" => "auth"]);
  $routes->post('/', 'Home::save', ["filter" => "auth"]);
+ $routes->get('rekap', 'Home::rekap', ["filter" => "auth"]);
 
 
  $routes->group("rekon", ["filter" => "auth"], function ($routes) {
