@@ -14,13 +14,6 @@ class Rekon extends BaseController
 
       foreach ($paki as $row) {
 
-        $arrContextOptions = array(
-                                "ssl"=>array(
-                                    "verify_peer"=>false,
-                                    "verify_peer_name"=>false,
-                                ),
-                            );
-
         $this->download($row->paki_file);
 
         $param = [
@@ -132,11 +125,18 @@ class Rekon extends BaseController
 
     public function download($filename)
     {
+      $arrContextOptions = array(
+                              "ssl"=>array(
+                                  "verify_peer"=>false,
+                                  "verify_peer_name"=>false,
+                              ),
+                          );
+
       $url = 'https://docu.kemenag.go.id:9000/cdn/dispakati/'.$filename;
 
       $file_name = basename($url);
 
-      if (file_put_contents('temp/'.$file_name, file_get_contents($url)))
+      if (file_put_contents('temp/'.$file_name, file_get_contents($url,false,stream_context_create($arrContextOptions))))
       {
           echo "File downloaded successfully";
       }
