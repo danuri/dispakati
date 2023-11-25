@@ -82,10 +82,10 @@ class Rekon extends BaseController
         unlink(FCPATH.'temp/'.$row->paki_file);
       }
 
-      sleep(2);
+      // sleep(2);
 
-      $n = $this->request->getVar('n')+1;
-      return redirect()->to('rekon?n='.$n);
+      // $n = $this->request->getVar('n')+1;
+      // return redirect()->to('rekon?n='.$n);
 
     }
 
