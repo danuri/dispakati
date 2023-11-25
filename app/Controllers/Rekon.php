@@ -77,7 +77,7 @@ class Rekon extends BaseController
 
             $paki = $model->where('paki_pns_nipbaru',$row->paki_pns_nipbaru)->set($set)->update();
             echo 'Gagal update. ';
-            echo $rekon->data;
+            echo $rekon->message;
           }
         }else{
           $set = [
