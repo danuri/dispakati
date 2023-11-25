@@ -46,7 +46,7 @@ class Rekon extends BaseController
                             ],
                             'verify' => false,
                             'debug' => true,
-                            'delay' => 500
+                            'delay' => 1000
                         ]);
         $rekon = json_decode($request->getBody());
         // print_r($request);
