@@ -42,7 +42,7 @@ class Rekon extends BaseController
                             'multipart' => $param,
                             'headers' => [
                                 'Authorization' => 'Bearer '.$token,
-                                'Cookie' => '4230614d55baff62a2f629cf357fa896=ac6f1c4b3cb384cbb68c70f54a103949; ci_session=3jjdk6jue5oo5frjtmrl1mpb7sefc127'
+                                'Cookie' => '4230614d55baff62a2f629cf357fa896=dd51428031d24d247e07da6cb3a519be; ci_session=p74pfu8d2lmm8hkqo1atajvmq5ukbcna'
                             ],
                             'verify' => false,
                             'debug' => true
@@ -181,7 +181,7 @@ class Rekon extends BaseController
                             'password' => getenv('DISPAKATI_PASSWORD')
                           ],
                           'headers' => [
-                            'Cookie' => '4230614d55baff62a2f629cf357fa896=ac6f1c4b3cb384cbb68c70f54a103949; ci_session=3jjdk6jue5oo5frjtmrl1mpb7sefc127'
+                            'Cookie' => '4230614d55baff62a2f629cf357fa896=dd51428031d24d247e07da6cb3a519be; ci_session=p74pfu8d2lmm8hkqo1atajvmq5ukbcna'
                           ],
                           'verify' => false
                       ]);
