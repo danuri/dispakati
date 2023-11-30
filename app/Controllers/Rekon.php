@@ -42,8 +42,9 @@ class Rekon extends BaseController
                             'multipart' => $param,
                             'headers' => [
                                 'Authorization' => 'Bearer '.$token,
-                                'Cookie' => '4230614d55baff62a2f629cf357fa896=dd51428031d24d247e07da6cb3a519be; ci_session=p74pfu8d2lmm8hkqo1atajvmq5ukbcna'
+                                // 'Cookie' => '4230614d55baff62a2f629cf357fa896=dd51428031d24d247e07da6cb3a519be; ci_session=p74pfu8d2lmm8hkqo1atajvmq5ukbcna'
                             ],
+                            'cookie' => WRITEPATH . 'CookieSaver.txt',
                             'verify' => false,
                             'debug' => true
                         ]);
@@ -131,9 +132,9 @@ class Rekon extends BaseController
                           'multipart' => $param,
                           'headers' => [
                               'Authorization' => 'Bearer '.$token,
-                              // 'Cookie' => '4230614d55baff62a2f629cf357fa896=6e305bba31d7df92fe22ae6d9cc18535; ci_session=gogacr9fs3l25fqdtgfgscg2vbv3atue'
+                              'Cookie' => '4230614d55baff62a2f629cf357fa896=4d92f7282ede5a83c421329d9da9911d; ci_session=mt0rk51j8bph4kdrrr6ktke7u8q8h370'
                           ],
-                          'cookie' => WRITEPATH . 'CookieSaver.txt',
+                          // 'cookie' => WRITEPATH . 'CookieSaver.txt',
                           'verify' => false,
                           'debug' => true
                       ]);
