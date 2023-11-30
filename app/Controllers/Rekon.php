@@ -156,7 +156,7 @@ class Rekon extends BaseController
 
       $file_name = basename($url);
 
-      if (file_put_contents('temp/'.$file_name, file_get_contents($url,false,stream_context_create($arrContextOptions))))
+      if (file_put_contents('temp/'.$file_name, @file_get_contents($url,false,stream_context_create($arrContextOptions))))
       {
           echo "File downloaded successfully";
       }
