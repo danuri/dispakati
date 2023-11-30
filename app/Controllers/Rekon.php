@@ -42,7 +42,7 @@ class Rekon extends BaseController
                             'multipart' => $param,
                             'headers' => [
                                 'Authorization' => 'Bearer '.$token,
-                                'Cookie' => '4230614d55baff62a2f629cf357fa896=dd51428031d24d247e07da6cb3a519be; ci_session=p74pfu8d2lmm8hkqo1atajvmq5ukbcna'
+                                'Cookie' => session('cookie').'; ci_session='.session('cisession')
                             ],
                             'verify' => false,
                             'debug' => true
@@ -174,6 +174,9 @@ class Rekon extends BaseController
 
     public function login()
     {
+      session()->set(['cookie'=>time()]);
+      session()->set(['cisession'=>time()]);
+
       $client = \Config\Services::curlrequest();
       $request = $client->request('POST', 'https://dispakati.bkn.go.id/api/trial/login', [
                           'form_params' => [
@@ -181,7 +184,7 @@ class Rekon extends BaseController
                             'password' => getenv('DISPAKATI_PASSWORD')
                           ],
                           'headers' => [
-                            'Cookie' => time().'; ci_session='.time()
+                            'Cookie' => session('cookie').'; ci_session='.session('cisession')
                           ],
                           'verify' => false
                       ]);
