@@ -181,7 +181,7 @@ class Rekon extends BaseController
                             'password' => getenv('DISPAKATI_PASSWORD')
                           ],
                           'headers' => [
-                            'Cookie' => '4230614d55baff62a2f629cf357fa896=dd51428031d24d247e07da6cb3a519be; ci_session=p74pfu8d2lmm8hkqo1atajvmq5ukbcna'
+                            'Cookie' => time().'; ci_session='.time()
                           ],
                           'verify' => false
                       ]);
