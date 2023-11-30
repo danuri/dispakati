@@ -42,7 +42,7 @@ class Rekon extends BaseController
                             'multipart' => $param,
                             'headers' => [
                                 'Authorization' => 'Bearer '.$token,
-                                'Cookie' => session('cookie').'; ci_session='.session('cisession')
+                                'Cookie' => '4230614d55baff62a2f629cf357fa896=dd51428031d24d247e07da6cb3a519be; ci_session=p74pfu8d2lmm8hkqo1atajvmq5ukbcna'
                             ],
                             'verify' => false,
                             'debug' => true
@@ -131,8 +131,9 @@ class Rekon extends BaseController
                           'multipart' => $param,
                           'headers' => [
                               'Authorization' => 'Bearer '.$token,
-                              'Cookie' => '4230614d55baff62a2f629cf357fa896=6e305bba31d7df92fe22ae6d9cc18535; ci_session=gogacr9fs3l25fqdtgfgscg2vbv3atue'
+                              // 'Cookie' => '4230614d55baff62a2f629cf357fa896=6e305bba31d7df92fe22ae6d9cc18535; ci_session=gogacr9fs3l25fqdtgfgscg2vbv3atue'
                           ],
+                          'cookie' => WRITEPATH . 'CookieSaver.txt',
                           'verify' => false,
                           'debug' => true
                       ]);
@@ -174,18 +175,16 @@ class Rekon extends BaseController
 
     public function login()
     {
-      session()->set(['cookie'=>time()]);
-      session()->set(['cisession'=>time()]);
-
       $client = \Config\Services::curlrequest();
       $request = $client->request('POST', 'https://dispakati.bkn.go.id/api/trial/login', [
                           'form_params' => [
                             'username' => getenv('DISPAKATI_USERNAME'),
                             'password' => getenv('DISPAKATI_PASSWORD')
                           ],
-                          'headers' => [
-                            'Cookie' => session('cookie').'; ci_session='.session('cisession')
-                          ],
+                          // 'headers' => [
+                          //   'Cookie' => '4230614d55baff62a2f629cf357fa896=dd51428031d24d247e07da6cb3a519be; ci_session=p74pfu8d2lmm8hkqo1atajvmq5ukbcna'
+                          // ],
+                          'cookie' => WRITEPATH . 'CookieSaver.txt',
                           'verify' => false
                       ]);
 
