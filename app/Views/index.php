@@ -25,7 +25,14 @@
               <div class="alert alert-danger">
                 Isi data sesuai dengan PAK terakhir yang dimiliki. Ketidaksesuaian data yang diinput menjadi tanggung jawab pegawai masing-masing.
               </div>
-              <form class="" action="" method="post" enctype="multipart/form-data">
+              <div class="alert alert-success">
+                Status aplikasi DISPAKATI BKN: <?= ($paki->status == 0)?'Pending':'<b>'.$paki->dispakati_message.'</b>';?>
+              </div>
+              <?php if($paki->status == 1){?>
+                  <form class="" action="/disabled" method="post" enctype="multipart/form-data" id="formpak">
+              <?php }else{ ?>
+                  <form class="" action="" method="post" enctype="multipart/form-data" id="formpak">
+              <?php } ?>
                 <input type="hidden" name="id" value="<?= encrypt($paki->id)?>">
               <table class="table table-bordered">
 								<tbody><tr bgcolor="#3399cc" style="color:#FFFFFF;">
@@ -166,6 +173,9 @@
   $(document).ready(function() {
     $('.input-float').inputNumberFormat({'decimal': 3,'decimalAuto': 0});
     hitung();
+  <?php if($paki->status == 1){?>
+    $( "#formpak :input" ).prop( "disabled", true );
+  <?php } ?>
   });
 
   function hitung() {
