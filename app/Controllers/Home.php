@@ -24,6 +24,7 @@ class Home extends BaseController
             'paki_konv_tunjang_baru' => "",
             'paki_tgl_awal' => "",
             'paki_file' => "",
+            'status' => "",
           ];
         }
 
