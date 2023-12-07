@@ -154,7 +154,7 @@ class Rekon extends BaseController
                               ),
                           );
 
-      $url = 'https://docu.kemenag.go.id:9000/cdn/dispakati/'.$filename;
+      $url = 'https://ropeg.kemenag.go.id:9000/cdn/dispakati/'.$filename;
 
       $file_name = basename($url);
 

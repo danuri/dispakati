@@ -63,12 +63,12 @@ class Home extends BaseController
 
         $s3 = new S3Client([
           'region'  => 'us-east-1',
-          'endpoint' => 'https://docu.kemenag.go.id:9000/',
+          'endpoint' => 'https://ropeg.kemenag.go.id:9000/',
           'use_path_style_endpoint' => true,
           'version' => 'latest',
           'credentials' => [
-            'key'    => "118ZEXFCFS0ICPCOLIEJ",
-            'secret' => "9xR+TBkYyzw13guLqN7TLvxhfuOHSW++g7NCEdgP",
+            'key'    => "PkzyP2GIEBe8z29xmahI",
+            'secret' => "voNVqTilX2iux6u7pWnaqJUFG1414v0KTaFYA0Uz",
           ],
           'http'    => [
               'verify' => false
