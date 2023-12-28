@@ -153,7 +153,7 @@
 										<td>
 										<div class=" col-md-7">
 										<input type="file" required="" name="gambar" id="gambar" accept="application/pdf" class="form-control">
-                    <?= ($paki->paki_file)?'<br><br><a href="https://docu.kemenag.go.id:9000/cdn/dispakati/'.$paki->paki_file.'" target="_blank" class="btn btn-success">Lihat Dokumen</a>':'';?>
+                    <?= ($paki->paki_file)?'<br><br><a href="https://docu.kemenag.go.id:9000/dispakati/attachment/'.$paki->paki_file.'" target="_blank" class="btn btn-success">Lihat Dokumen</a>':'';?>
 						                </div>
 						               	</td>
 									</tr>
