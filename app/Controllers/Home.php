@@ -79,8 +79,8 @@ class Home extends BaseController
         ]);
 
         $result = $s3->putObject([
-          'Bucket' => 'cdn',
-          'Key'    => 'dispakati/'.$file_name,
+          'Bucket' => 'dispakati',
+          'Key'    => 'attachment/'.$file_name,
           'SourceFile' => $temp_file_location,
           'ContentType' => 'application/pdf'
         ]);
