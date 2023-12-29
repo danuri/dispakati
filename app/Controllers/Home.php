@@ -24,7 +24,6 @@ class Home extends BaseController
             'paki_konv_tunjang_baru' => "",
             'paki_tgl_awal' => "",
             'paki_file' => "",
-            'dispakati_message' => "",
             'status' => "",
           ];
         }
@@ -64,15 +63,12 @@ class Home extends BaseController
 
         $s3 = new S3Client([
           'region'  => 'us-east-1',
-          // 'endpoint' => 'https://ropeg.kemenag.go.id:9000/',
-          'endpoint' => 'https://docu.kemenag.go.id:9000/',
+          'endpoint' => 'http://10.33.0.164:9000/',
           'use_path_style_endpoint' => true,
           'version' => 'latest',
           'credentials' => [
-            // 'key'    => "PkzyP2GIEBe8z29xmahI",
-            // 'secret' => "voNVqTilX2iux6u7pWnaqJUFG1414v0KTaFYA0Uz",
-            'key'    => "118ZEXFCFS0ICPCOLIEJ",
-            'secret' => "9xR+TBkYyzw13guLqN7TLvxhfuOHSW++g7NCEdgP",
+            'key'    => "PkzyP2GIEBe8z29xmahI",
+            'secret' => "voNVqTilX2iux6u7pWnaqJUFG1414v0KTaFYA0Uz",
           ],
           'http'    => [
               'verify' => false
@@ -80,8 +76,8 @@ class Home extends BaseController
         ]);
 
         $result = $s3->putObject([
-          'Bucket' => 'dispakati',
-          'Key'    => 'attachment/'.$file_name,
+          'Bucket' => 'cdn',
+          'Key'    => 'dispakati/'.$file_name,
           'SourceFile' => $temp_file_location,
           'ContentType' => 'application/pdf'
         ]);
