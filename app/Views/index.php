@@ -26,7 +26,7 @@
                 Isi data sesuai dengan PAK terakhir yang dimiliki. Ketidaksesuaian data yang diinput menjadi tanggung jawab pegawai masing-masing.
               </div>
               <div class="alert alert-success">
-                Status aplikasi DISPAKATI BKN: <?= ($paki->status == 0)?'Pending':'<b>'.$paki->dispakati_message.'</b>';?>
+                Status dari <b>BKN</b>: <?= ($paki->status == 0)?'Pending':'<b>'.$paki->dispakati_message.'</b>';?>
               </div>
               <?php if($paki->status == 1){?>
                   <form class="" action="/disabled" method="post" enctype="multipart/form-data" id="formpak">
